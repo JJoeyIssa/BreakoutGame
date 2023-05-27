@@ -25,11 +25,11 @@ let rowCount = 5,
 
 // brick array
 let bricks = [];
-for(let c = 0; c < columnCount; c++) {
+for (let c = 0; c < columnCount; c++) {
     bricks[c] = [];
-    for(let r = 0; r < rowCount; r++) {
-        //set postions of the bricks
-        bricks[c][r] = { x: 0, y: 0, status: 1};
+    for (let r = 0; r < rowCount; r++) {
+        // Set position of bricks
+        bricks[c][r] = { x: 0, y: 0, status: 1 };
     }
 }
 
@@ -38,18 +38,17 @@ for(let c = 0; c < columnCount; c++) {
 document.addEventListener("mouseover", mouseMoveHandler, false);
 
 // move paddle with mouse
-function mouseMoveHandler(e){
+function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > o && relativeX < canvas.width){
-        paddleX = relativeX - paddleWidth /2;
+    if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2;
     }
 }
 
 // draw paddle
 function drawPaddle(){
     ctx.beginPath();
-    ctx.roundRect(paddleX, canvas.height - paddleHeight, paddleWidth,
-        paddleHeight, 30);
+    ctx.roundRect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight, 30);
     ctx.fillStyle = '#333';
     ctx.fill();
     ctx.closePath();
@@ -65,28 +64,27 @@ function drawBall(){
 }
 
 // draw bricks
-function drawBricks(){
-    for(let c = 0; c < columnCount; c++) {
-        for(let r = 0; r < rowCount; r++) {
-            if(bricks[c][r].status === 1) {
+function drawBricks() {
+    for (let c = 0; c < columnCount; c++) {
+        for (let r = 0; r < rowCount; r++) {
+            if (bricks[c][r].status === 1) {
                 let brickX = (c * (brickWidth + brickPadding)) + leftOffset;
-                let brickY = (r * (brickWidth + brickPadding)) + topOffset;
+                let brickY = (r * (brickHeight + brickPadding)) + topOffset;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                ctx.roundRect(brickX. brickY, brickWidth, brickHeight, 30);
+                ctx.roundRect(brickX, brickY, brickWidth, brickHeight, 30);
                 ctx.fillStyle = '#333';
                 ctx.fill();
                 ctx.closePath();
             }
         }
     }
-
 }
 
 // track score
 function trackScore(){
-    ctx.font = 'blod 16px sans=serif';
+    ctx.font = 'bold 16px sans-serif';
     ctx.fillStyle = '#333';
     ctx.fillText('Score : ' + score, 8, 24);
 }
@@ -131,7 +129,7 @@ function init(){
     // detect roof
     if(y + dy < ballRadius) {
         dy = -dy;
-    } else if(y + dy > canvas.height -ballRadius) {
+    } else if(y + dy > canvas.height - ballRadius) {
         // detect if paddle hits
         if( x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
@@ -154,4 +152,4 @@ function init(){
     y += dy;
 }
 
-setInterval(init, 10);
+setInterval(init, 1);
