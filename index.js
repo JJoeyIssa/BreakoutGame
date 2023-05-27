@@ -1,9 +1,9 @@
 let canvas = document.getElementById('game'),
     ctx = canvas.getContext('2d'),
-    ballRadius = 9
+    ballRadius = 9,
     x = canvas.width / (Math.floor(Math.random()*Math.random()*10)+3),
     y = canvas.height - 40,
-    dx = 2  //rate of change of x
+    dx = 2,  //rate of change of x
     dy = -2; //rate of change of y
 
 let paddleHieght = 12,
@@ -88,4 +88,70 @@ function drawBricks(){
 function trackScore(){
     ctx.font = "blod 16px sans=serif";
     ctx.fillStyle = "#333";
+    ctx.fillText('Score : ' + score, 8, 24);
 }
+
+// check if the ball has hit the bricks
+function hitDetection(){
+    for(let c = 0; c < columnCount; c++) {
+        for(let r = 0; r < rowCount; r++) {
+            let b = bricks[c][r];
+            if(b.status === 1){
+                if(x > b.x && x < b.x + brickWidth
+                    && y > b.y && y < b.y + brickHeight) {
+                        dy = -dy;
+                        b.status = 0;
+                        score++;
+                        // check if the player has won (score = all bricks)
+                        if(score === rowCount * columnCount) {
+                            alert('You WIN!!');
+                            document.location.reload(); //reset the page after victory
+                        }
+                    }
+            }
+        }
+    
+    }
+}
+
+// main fuction, call all other fucntions
+function intit(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    trackScore();
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    hitDetection();
+
+    // detect walls
+    if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+        dx = -dx;
+    }
+
+    // detect roof
+    if(y + dy < ballRadius) {
+        dy = -dy;
+    } else if(y + dy > canvas.height -ballRadius) {
+        // detect if paddle hits
+        if( x > paddleX && x < paddleX + paddleWidth) {
+            dy = -dy;
+        } else {
+            // if paddle misses ball
+            alert('Game Over! you lost :( !');
+            document.location.reload(); //reset the page after loss
+
+
+        }
+    }
+
+    // bottom wall
+    if(y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+        dy = -dy;
+    }
+
+    // move ball
+    x += dx;
+    y += dy;
+}
+
+setInterval(init, 10);
