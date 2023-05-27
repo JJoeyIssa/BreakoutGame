@@ -6,7 +6,7 @@ let canvas = document.getElementById('game'),
     dx = 2,  //rate of change of x
     dy = -2; //rate of change of y
 
-let paddleHieght = 12,
+let paddleHeight = 12,
     paddleWidth = 72;
 
 
@@ -86,8 +86,8 @@ function drawBricks(){
 
 // track score
 function trackScore(){
-    ctx.font = "blod 16px sans=serif";
-    ctx.fillStyle = "#333";
+    ctx.font = 'blod 16px sans=serif';
+    ctx.fillStyle = '#333';
     ctx.fillText('Score : ' + score, 8, 24);
 }
 
@@ -115,7 +115,7 @@ function hitDetection(){
 }
 
 // main fuction, call all other fucntions
-function intit(){
+function init(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     trackScore();
     drawBricks();
